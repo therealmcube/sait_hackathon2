@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and emergency settings",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "emergency_contacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "phone": { "type": "string" }
+            }
+          }
+        },
+        "role": { "type": "string" }
+      },
+      "required": ["name", "emergency_contacts"]
+    },
+    "EmergencyAlert": {
+      "title": "Emergency Alert",
+      "description": "An SOS alert triggered by a user",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["active", "resolved"] }
+      },
+      "required": ["user_id", "timestamp", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data"
+    },
+    "/emergency_alerts/{alertId}": {
+      "schema": "EmergencyAlert",
+      "description": "Active and past emergency alerts"
+    }
+  }
+}
